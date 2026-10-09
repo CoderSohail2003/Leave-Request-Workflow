@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Leave Request Workflow</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header>
+        <div>
+          <p class="eyebrow">Challenge 5 · State machine</p>
+          <h1>Leave Request Workflow</h1>
+          <p class="lede">
+            Requests move Draft → Submitted → Manager Approved → HR Approved → Completed.
+            Reject is allowed from Submitted, Manager Approved, or HR Approved. Stages cannot be skipped.
+          </p>
+        </div>
+      </header>
+
+      <main>
+        <section class="panel">
+          <div class="panel-head">
+            <h2>Requests</h2>
+            <label>
+              Filter
+              <select id="statusFilter">
+                <option value="">All</option>
+                <option value="draft">Draft</option>
+                <option value="pending_manager">Pending manager</option>
+                <option value="pending_hr">Pending HR</option>
+                <option value="pending_complete">Pending complete</option>
+                <option value="completed">Completed</option>
+                <option value="rejected">Rejected</option>
+              </select>
+            </label>
+          </div>
+          <div id="requestList" class="request-list"></div>
+        </section>
+
+        <section class="panel detail">
+          <h2>Workflow</h2>
+          <div id="emptyState" class="empty">Select a request to inspect its pipeline and audit timeline.</div>
+          <div id="detail" class="hidden">
+            <div class="meta" id="meta"></div>
+            <ol class="stepper" id="stepper"></ol>
+            <div id="rejectedBanner" class="rejected-banner hidden">Rejected</div>
+            <form id="transitionForm" class="transition-form">
+              <h3>Advance or reject</h3>
+              <p id="allowedHint" class="hint"></p>
+              <div class="grid">
+                <label>
+                  Actor ID
+                  <input id="actorId" required placeholder="mgr-7" />
+                </label>
+                <label>
+                  Action
+                  <select id="action" required></select>
+                </label>
+              </div>
+              <label>
+                Comment
+                <textarea id="comment" required rows="3" placeholder="Required for every transition"></textarea>
+              </label>
+              <button type="submit">Apply transition</button>
+              <p id="formError" class="error" role="alert"></p>
+            </form>
+            <h3>Audit timeline</h3>
+            <ol class="timeline" id="timeline"></ol>
+          </div>
+        </section>
+
+        <section class="panel">
+          <h2>New leave request</h2>
+          <form id="createForm" class="create-form">
+            <div class="grid">
+              <label>Employee ID <input name="employeeId" required value="emp-104" /></label>
+              <label>Employee name <input name="employeeName" required value="Sohail" /></label>
+              <label>
+                Leave type
+                <select name="leaveType">
+                  <option value="annual">Annual</option>
+                  <option value="sick">Sick</option>
+                  <option value="unpaid">Unpaid</option>
+                </select>
+              </label>
+              <label>Start date <input name="startDate" type="date" required value="2026-10-28" /></label>
+              <label>End date <input name="endDate" type="date" required value="2026-10-30" /></label>
+            </div>
+            <label>Reason <textarea name="reason" required rows="2">Personal travel</textarea></label>
+            <button type="submit">Create draft</button>
+            <p id="createError" class="error" role="alert"></p>
+          </form>
+        </section>
+      </main>
+    </div>
+    <script src="/app.js"></script>
+  </body>
+</html>
